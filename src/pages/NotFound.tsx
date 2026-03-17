@@ -1,26 +1,15 @@
-"use client";
+'use client'
 
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from 'react'
 
-const NotFound = () => {
-  const location = useLocation();
+export default function NotFound() {
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
+    setMounted(true)
+  }, [])
 
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary underline hover:text-primary/90">
-          Return to Home
-        </a>
-      </div>
-    </div>
-  );
-};
+  if (!mounted) return null
 
-export default NotFound;
+  return <div>Page not found</div>
+}
