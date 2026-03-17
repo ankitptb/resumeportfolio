@@ -32,7 +32,7 @@ export function HeroSection() {
 
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">{fullName}</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground break-words">{fullName}</h1>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

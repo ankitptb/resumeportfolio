@@ -2,9 +2,17 @@
 
 import { ThemeToggle } from "./ThemeToggle";
 import { profileData } from "@/data/profile-data";
-import { Settings } from "lucide-react";
+import { Menu, Settings } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { useState } from "react";
 
 const navLinks = [
   { label: "Experience", href: "#experience" },
@@ -14,6 +22,7 @@ const navLinks = [
 ];
 
 export function NavBar() {
+  const [isOpen, setIsOpen] = useState(false);
   const initials = `${profileData.profile.first_name[0]}${profileData.profile.last_name[0]}`;
 
   return (
@@ -27,21 +36,54 @@ export function NavBar() {
         </a>
 
         <div className="flex items-center gap-1">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
           <ThemeToggle />
+          
           <Link href="/edit">
             <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
               <Settings className="h-5 w-5" />
             </Button>
           </Link>
+
+          {/* Mobile Navigation */}
+          <div className="md:hidden">
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[240px] sm:w-[300px]">
+                <SheetHeader>
+                  <SheetTitle className="text-left">Navigation</SheetTitle>
+                </SheetHeader>
+                <div className="flex flex-col gap-4 mt-8">
+                  {navLinks.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </nav>
